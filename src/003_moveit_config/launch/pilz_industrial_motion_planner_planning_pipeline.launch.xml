@@ -9,6 +9,9 @@
   <!-- Define default planner (for all groups) -->
   <param name="default_planner_config" value="PTP" />
 
+  <!-- Load planner configuration including PTP, LIN and CIRC -->
+  <rosparam command="load" file="$(find 003_moveit_config)/config/pilz_planning.yaml" />
+
   <!-- MoveGroup capabilities to load for this pipeline, append sequence capability -->
   <param name="capabilities" value="pilz_industrial_motion_planner/MoveGroupSequenceAction
                                     pilz_industrial_motion_planner/MoveGroupSequenceService" />
