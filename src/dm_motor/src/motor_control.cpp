@@ -674,7 +674,7 @@ void motor_control_calculator(void)
         
         arm_mode_last = "arm_init_finish";
     }
-    else//第二阶段，保持当前位置并进行正常控制
+    else if(t_enable2now <= 3.0)//第二阶段，保持当前位置并进行正常控制
     {
         motor_1.kp = MOTOR_1_kp;
         motor_2.kp = MOTOR_2_kp;
