@@ -7,10 +7,10 @@
 #include <geometry_msgs/Twist.h>
 #include <signal.h>
 #include <chrono>
-#include "stdint.#include <fstream>
+#include <fstream>
 #include <regex>
 #include <ros/package.h>
-#include "stdint.h"
+#include <stdint.h>
 #include "can_msgs/Frame.h"
 #include "std_msgs/String.h"
 #include "dm_motor/motor_config.h"
@@ -73,7 +73,8 @@ void save_start_pose_to_srdf(const float pos[6])
     state << "    </group_state>\n";
 
     std::string new_state = state.str();
-    std::regex rgx("<group_state name=\"startup\"[\s\S]*?</group_state>\n");
+    // Use a raw string literal so the regex spans newlines
+    std::regex rgx(R"(<group_state name="startup"[\s\S]*?</group_state>\n)");
     if(std::regex_search(content, rgx))
         content = std::regex_replace(content, rgx, new_state);
     else
@@ -673,7 +674,7 @@ void motor_control_calculator(void)
         
         arm_mode_last = "arm_init_finish";
     }
-    else//第二阶段，保持当前位置并进行正常控制
+    else if(t_enable2now <= 3.0)//第二阶段，保持当前位置并进行正常控制
     {
         motor_1.kp = MOTOR_1_kp;
         motor_2.kp = MOTOR_2_kp;
@@ -708,7 +709,7 @@ void motor_control_calculator(void)
         else
         {
             //模式切换时重新触发上电过程
-s_tartget是一个阶跃，但是受motor_energy_limit()保护，不会產生危险
+            // s_target是一个阶跃，但是受motor_energy_limit()保护，不会产生危险
         motor_1.pos_target = 0;
         motor_2.pos_target = 0;
         motor_3.pos_target = 0;
